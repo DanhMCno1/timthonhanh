@@ -1,0 +1,43 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+select {
+    list-style: none;
+    border: none;
+}
+#message {
+    top: 10px;
+    position: fixed;
+}
+#message_signin {
+    top: 10px;
+    position: fixed;
+}
+#message_contact {
+    top: 10px;
+    position: fixed;
+}
+.alert {
+    width: 540px;
+    padding: 15px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    z-index: 100;
+}
+.address_info {
+    border: 1px solid #a0aec0;
+}
+.alert-success {
+    color: #e2e8f0;
+    background-color: #00A96E;
+    border-color: #e2e8f0;
+}
+
+.alert-danger {
+    color: #e2e8f0;
+    background-color: #FF5861;
+    border-color: #e2e8f0;
+}

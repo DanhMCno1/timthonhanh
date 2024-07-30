@@ -1,0 +1,8 @@
+@import "@fortawesome/fontawesome-free/css/all.css";
+@import "toastr/build/toastr.min.css";
+@import "custom-toastr.css";
+@import "cropperjs/dist/cropper.min.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
