@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-staff-layout>
     <x-slot name="header">
         Max QR code nhận xét
     </x-slot>
@@ -34,4 +34,4 @@
             })
         </script>
     </x-slot>
-</x-guest-layout>
+</x-staff-layout>

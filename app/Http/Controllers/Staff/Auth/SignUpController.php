@@ -11,6 +11,9 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Staff;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class SignUpController extends Controller
 {
@@ -51,10 +54,29 @@ class SignUpController extends Controller
 
         try {
             DB::beginTransaction();
+
+            // Auto create referral_code when sign-up successfully
+            $referralCode = Str::upper(Str::random(10));
+
+            // Tìm presenter_id nếu có mã giới thiệu
+            $presenterId = null;
+            $parentReferralCode = $request->get('present_code');
+            if ($parentReferralCode) {
+                $parentStaff = Staff::where('referral_code', $parentReferralCode)->first();
+                if ($parentStaff) {
+                    $presenterId = $parentStaff->id;
+                } else {
+                    return response()->json([
+                        'errors' => ['error' => 'Mã giới thiệu không đúng hoặc không tồn tại.'],
+                    ], 500);
+                }
+            }
+
             $staff = $this->staffRepo->create([
                 'phone' => $phone,
                 'email' => $request->get('email'),
                 'password' => Hash::make($request->get('password')),
+                'referral_code' => $referralCode,
                 'name' => $request->get('name'),
                 'gender' => $request->get('gender'),
                 'birthday' => $request->get('birthday'),
@@ -63,6 +85,8 @@ class SignUpController extends Controller
                 'ward_id' => $request->get('ward_id'),
                 'hamlet' => $request->get('hamlet'),
                 'description' => $request->get('description'),
+                'presenter_id' => $presenterId,
+                'view' => $presenterId ? 10 : 5,
             ]);
 
             foreach ($province_ids as $key => $province_id) {
@@ -88,11 +112,19 @@ class SignUpController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'success' => 'Đăng ký thợ thành công',
-            ]);
+            // Trả về thông báo phù hợp dựa vào việc có presenter_id hay không
+            if ($presenterId) {
+                return response()->json([
+                    'success' => 'Bạn nhận thêm 5 lượt xem khi đăng ký với mã giới thiệu !',
+                ]);
+            } else {
+                return response()->json([
+                    'success' => 'Đăng ký thợ thành công.',
+                ]);
+            }
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Registration failed: ' . $e->getMessage());
 
             return response()->json([
                 'errors' => ['error' => $e->getMessage()],

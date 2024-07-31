@@ -46,12 +46,18 @@ class OrderController extends Controller
         if ($buyRequest->discount > 0) {
             $productData['description'] ='Giảm:'.' '. $buyRequest->discount .'%';
         }
+        $staff = Auth::guard('staff')->user();
+
+        // Lấy presenter_id từ staff
+        $presenterId = $staff->presenter_id;
+
         // Khởi tạo đơn với thông tin giá , số lượng , staff_id và trạng thái chờ khi chuyển qua cổng Stripe
         $order = $this->orderRepo->create([
             'status' => 'waiting',
             'amount' => $buyRequest->amount,
             'price' => $buyRequest->price * ( 1 -  $buyRequest->discount/100 ),
-            'staff_id' => Auth::guard('staff')->id()
+            'staff_id' => $staff->id,
+            'presenter_id' => $presenterId,
         ]);
         $session = Session::create([
             'payment_method_types' => ['card'],
@@ -96,6 +102,16 @@ class OrderController extends Controller
                     if ($staff) {
                         $staff->view += $order->amount;
                         $staff->save();
+
+                        // Bonus 20% for presenter
+                        if ($order->presenter_id) {
+                            $presenter = Staff::find($order->presenter_id);
+                            if ($presenter) {
+                                $bonusViews = $order->amount * 0.2;
+                                $presenter->view += $bonusViews;
+                                $presenter->save();
+                            }
+                        }
                     }
                 return redirect()->route('staff.order.create')->with('success', 'Đơn hàng của bạn đã được xử lý thành công !');
             }
@@ -117,14 +133,20 @@ class OrderController extends Controller
 
     }
 
-    // Xử lý dữ liệu trả về lịch sử giao dịch
     public function history(): View
     {
         $data = $this->orderRepo->getHistoryOrder($this->staff->id);
+        $staff = Auth::guard('staff')->user();
+
+        // Lấy thông tin bonus
+        $bonuses = $this->orderRepo->getPresenterBonuses($this->staff->id);
 
         return view('staffs.order.history', [
             'orders' => $data['orders'],
             'orderCount' => $data['orderCount'],
+            'staff' => $staff,
+            'bonuses' => $bonuses,
         ]);
     }
+
 }

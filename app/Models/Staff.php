@@ -18,6 +18,7 @@ class Staff extends Authenticatable
         'banned_until',
         'phone',
         'password',
+        'referral_code',
         'email',
         'birthday',
         'gender',
@@ -26,6 +27,7 @@ class Staff extends Authenticatable
         'district_id',
         'ward_id',
         'hamlet',
+        'presenter_id',
         'view',
     ];
 
@@ -106,5 +108,10 @@ class Staff extends Authenticatable
     public function messages(): MorphMany
     {
         return $this->morphMany(Message::class, 'sender');
+    }
+
+    public function presenter()
+    {
+        return $this->belongsTo(Staff::class, 'presenter_id');
     }
 }

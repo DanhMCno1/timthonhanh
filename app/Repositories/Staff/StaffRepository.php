@@ -17,4 +17,15 @@ class StaffRepository extends BaseRepository implements StaffRepositoryInterface
             ->orderBy('created_at')
             ->paginate(10);
     }
+    public function getReferralsByPresenterId($presenterId)
+    {
+        return Staff::where('presenter_id', $presenterId)
+            ->select('id', 'name')
+            ->orderBy('id')
+            ->paginate(10);
+    }
+    public function countReferralsByPresenterId($presenterId)
+    {
+        return Staff::where('presenter_id', $presenterId)->count();
+    }
 }

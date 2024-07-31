@@ -24,12 +24,6 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-//        $request->validate([
-//            'category_id' => ['nullable', 'exists:categories,id'],
-//        ], [
-//            'category_id.exists' => 'Danh mục không tồn tại.',
-//        ]);
-
         if ($request->has('category_id')) {
             $categoryId = $request->get('category_id');
 

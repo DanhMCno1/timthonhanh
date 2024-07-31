@@ -57,6 +57,12 @@
                         <input type="password" id="password-confirmation" name="password_confirmation" class="p-4 block w-full border-gray-300 rounded-lg placeholder-gray-400 focus:border-primary focus:ring-0 focus:outline-primary" placeholder="Xác nhận mật khẩu">
                     </div>
                 </div>
+                <div class="mt-7">
+                    <label for="present_code" class="block text-sm mb-2">Mã giới thiệu (nếu có)</label>
+                    <div class="flex rounded-lg h-12">
+                        <input type="text" id="present_code" name="present_code" class="p-4 block w-full border-gray-300 rounded-lg placeholder-gray-400 focus:border-primary focus:ring-0 focus:outline-primary" placeholder="Mã giới thiệu">
+                    </div>
+                </div>
             </div>
 
             <div class="pb-7">

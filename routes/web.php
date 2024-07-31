@@ -27,6 +27,7 @@ use App\Http\Controllers\StaffsSearchingController;
 use App\Http\Controllers\CategoriesListController;
 use App\Http\Controllers\UserChatController;
 use App\Http\Controllers\UserBlogController;
+use App\Http\Controllers\Staff\ReferController;
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
@@ -47,6 +48,7 @@ Route::prefix('s')->middleware('auth:staff')->group(function () {
     Route::get('requests/{request}', [RequestController::class, 'show'])->name('staff.requests.show');
     Route::patch('requests/{request}', [RequestController::class, 'update'])->name('staff.requests.update');
     Route::get('my-qr', [QRController::class, 'index'])->name('staff.qrcode');
+    Route::get('referral-code', [ReferController::class, 'index'])->name('staff.referral-code');
     Route::get('buy-request', [OrderController::class, 'create'])->name('staff.order.create');
     Route::post('buy-request', [OrderController::class, 'store'])->name('staff.order.store');
     Route::get('buy-requests', [OrderController::class, 'history'])->name('staff.order.history');
