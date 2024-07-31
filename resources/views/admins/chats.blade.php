@@ -1,4 +1,3 @@
-
 <x-admin-layout>
     <x-slot name="header">
         Quản lý chats
@@ -68,7 +67,7 @@
 
                                         let loadUrl = '{{ route('admin.chat.load', [':request', ':page']) }}';
                                         loadUrl = loadUrl.replace(':request', requestId).replace(':page', page);
-                                        
+
                                         axios.get(loadUrl)
                                         .then(function(response) {
                                             $('#chatbox').prepend(response.data.view);

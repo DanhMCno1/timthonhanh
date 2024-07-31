@@ -6,10 +6,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ckeditor/ckeditor": "^4.24",
         "kjmtrue/vietnam-zone": "^1.0",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "stripe/stripe-php": "^15.0",
+        "nesbot/carbon": "^3.6",
         "twilio/sdk": "^8.1"
     },
     "require-dev": {

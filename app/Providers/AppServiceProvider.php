@@ -39,6 +39,7 @@ use App\View\Components\StaffLayout;
 use Illuminate\Support\Facades\Blade;
 use App\View\Components\UserLayout;
 use Illuminate\Support\ServiceProvider;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -73,5 +74,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('staff-layout', StaffLayout::class);
         Blade::component('admin-layout', AdminLayout::class);
         Blade::component('user-layout', UserLayout::class);
+        Carbon::setLocale('vi');
     }
 }

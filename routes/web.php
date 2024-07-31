@@ -26,6 +26,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\StaffsSearchingController;
 use App\Http\Controllers\CategoriesListController;
 use App\Http\Controllers\UserChatController;
+use App\Http\Controllers\UserBlogController;
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
@@ -111,3 +112,7 @@ Route::get('categories-list', [CategoriesListController::class, 'categoriesList'
 Route::get('chat/{modelsRequest}', [UserChatController::class, 'show'])->name('chat.show');
 Route::get('messages/{modelsRequest}', [UserChatController::class, 'index'])->name('messages.index');
 Route::post('messages/{modelsRequest}', [UserChatController::class, 'store'])->name('messages.store');
+
+// Blog
+Route::get('blogs', [UserBlogController::class, 'index'])->name('blogs.index');
+Route::get('blogs/{slug}', [UserBlogController::class, 'show'])->name('blogs.pick');
